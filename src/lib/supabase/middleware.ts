@@ -6,77 +6,90 @@ export async function updateSession(request: NextRequest) {
     request,
   });
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
+  // If env vars are missing, just pass through
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    return supabaseResponse;
+  }
+
+  try {
+    const supabase = createServerClient(
+      supabaseUrl,
+      supabaseKey,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll();
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value }) =>
+              request.cookies.set(name, value)
+            );
+            supabaseResponse = NextResponse.next({
+              request,
+            });
+            cookiesToSet.forEach(({ name, value, options }) =>
+              supabaseResponse.cookies.set(name, value, options)
+            );
+          },
         },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            request.cookies.set(name, value)
-          );
-          supabaseResponse = NextResponse.next({
-            request,
-          });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          );
-        },
-      },
+      }
+    );
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    const path = request.nextUrl.pathname;
+
+    // Public routes that don't require auth
+    const publicRoutes = ['/', '/login', '/register'];
+    const isPublicRoute = publicRoutes.includes(path);
+
+    // If no user and trying to access protected route, redirect to login
+    if (!user && !isPublicRoute) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/login';
+      return NextResponse.redirect(url);
     }
-  );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    // If user is logged in and on auth pages, redirect to their dashboard
+    if (user && (path === '/login' || path === '/register')) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
 
-  const path = request.nextUrl.pathname;
-
-  // Public routes that don't require auth
-  const publicRoutes = ['/', '/login', '/register'];
-  const isPublicRoute = publicRoutes.includes(path);
-
-  // If no user and trying to access protected route, redirect to login
-  if (!user && !isPublicRoute) {
-    const url = request.nextUrl.clone();
-    url.pathname = '/login';
-    return NextResponse.redirect(url);
-  }
-
-  // If user is logged in and on auth pages, redirect to their dashboard
-  if (user && (path === '/login' || path === '/register')) {
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single();
-
-    const role = profile?.role || 'client';
-    const url = request.nextUrl.clone();
-    url.pathname = `/${role}`;
-    return NextResponse.redirect(url);
-  }
-
-  // Role-based route protection
-  if (user && (path.startsWith('/admin') || path.startsWith('/client') || path.startsWith('/creator'))) {
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single();
-
-    const role = profile?.role;
-    const requestedRole = path.split('/')[1];
-
-    if (role && role !== requestedRole) {
+      const role = profile?.role || 'client';
       const url = request.nextUrl.clone();
       url.pathname = `/${role}`;
       return NextResponse.redirect(url);
     }
-  }
 
-  return supabaseResponse;
+    // Role-based route protection
+    if (user && (path.startsWith('/admin') || path.startsWith('/client') || path.startsWith('/creator'))) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
+      const role = profile?.role;
+      const requestedRole = path.split('/')[1];
+
+      if (role && role !== requestedRole) {
+        const url = request.nextUrl.clone();
+        url.pathname = `/${role}`;
+        return NextResponse.redirect(url);
+      }
+    }
+
+    return supabaseResponse;
+  } catch (e) {
+    // If Supabase connection fails, just pass through
+    return supabaseResponse;
+  }
 }
