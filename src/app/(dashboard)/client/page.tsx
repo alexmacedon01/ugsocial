@@ -10,27 +10,32 @@ export default async function ClientDashboard() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  const [projectsRes, videosRes] = await Promise.all([
-    supabase
-      .from('projects')
-      .select('*')
-      .eq('client_id', user!.id)
-      .order('created_at', { ascending: false }),
-    supabase
+  // Fetch projects first (needed for video count query)
+  const projectsRes = await supabase
+    .from('projects')
+    .select('*')
+    .eq('client_id', user!.id)
+    .order('created_at', { ascending: false });
+
+  const projects = projectsRes.data || [];
+  const projectIds = projects.map(p => p.id);
+
+  // Only query videos if there are projects (empty .in() can cause errors)
+  let videoCount = 0;
+  if (projectIds.length > 0) {
+    const videosRes = await supabase
       .from('videos')
       .select('id', { count: 'exact' })
       .eq('admin_approval_status', 'approved')
-      .in('project_id', (
-        await supabase.from('projects').select('id').eq('client_id', user!.id)
-      ).data?.map(p => p.id) || []),
-  ]);
+      .in('project_id', projectIds);
+    videoCount = videosRes.count || 0;
+  }
 
-  const projects = projectsRes.data || [];
   const activeProjects = projects.filter(p => !['completed', 'delivered'].includes(p.status));
 
   const stats = [
     { label: 'Aktive Projekte', value: activeProjects.length, icon: <Briefcase size={20} /> },
-    { label: 'Fertige Videos', value: videosRes.count || 0, icon: <Video size={20} /> },
+    { label: 'Fertige Videos', value: videoCount, icon: <Video size={20} /> },
     { label: 'Gesamt Projekte', value: projects.length, icon: <FileText size={20} /> },
   ];
 
