@@ -22,6 +22,7 @@ export default function RegisterPage() {
   const [role, setRole] = useState<UserRole>('client');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,7 +30,7 @@ export default function RegisterPage() {
     setError('');
 
     const supabase = createClient();
-    const { error: authError } = await supabase.auth.signUp({
+    const { data, error: authError } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -46,9 +47,33 @@ export default function RegisterPage() {
       return;
     }
 
+    // If email confirmation is enabled, the user won't have a session yet
+    if (data?.user && !data.session) {
+      setSuccess(true);
+      setLoading(false);
+      return;
+    }
+
     router.push(`/${role}`);
     router.refresh();
   };
+
+  if (success) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-zinc-50 px-4 dark:bg-zinc-950">
+        <div className="w-full max-w-sm text-center">
+          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">E-Mail bestätigen</h1>
+          <p className="mt-4 text-sm text-zinc-500 dark:text-zinc-400">
+            Wir haben dir eine Bestätigungs-E-Mail an <strong className="text-zinc-900 dark:text-white">{email}</strong> gesendet.
+            Bitte klicke auf den Link in der E-Mail, um dein Konto zu aktivieren.
+          </p>
+          <Link href="/login" className="mt-6 inline-block text-sm font-medium text-zinc-900 hover:underline dark:text-white">
+            Zurück zur Anmeldung
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 px-4 dark:bg-zinc-950">
