@@ -67,7 +67,7 @@ DROP POLICY IF EXISTS "Users can update own messages read status" ON messages;
 -- STEP 2: Helper function to get user role from JWT (avoids querying profiles)
 -- ============================================
 
-CREATE OR REPLACE FUNCTION auth.user_role()
+CREATE OR REPLACE FUNCTION public.get_my_role()
 RETURNS text AS $$
   SELECT coalesce(
     nullif(current_setting('request.jwt.claims', true)::json->>'user_role', ''),
@@ -87,7 +87,7 @@ CREATE POLICY "Users can view own profile"
 
 CREATE POLICY "Admins can view all profiles"
   ON profiles FOR SELECT
-  USING (auth.user_role() = 'admin');
+  USING (public.get_my_role() = 'admin');
 
 CREATE POLICY "Users can update own profile"
   ON profiles FOR UPDATE
@@ -105,7 +105,7 @@ CREATE POLICY "Clients can view own client profile"
 
 CREATE POLICY "Admins can view all client profiles"
   ON client_profiles FOR SELECT
-  USING (auth.user_role() = 'admin');
+  USING (public.get_my_role() = 'admin');
 
 CREATE POLICY "Clients can update own client profile"
   ON client_profiles FOR UPDATE
@@ -123,7 +123,7 @@ CREATE POLICY "Creators can view own creator profile"
 
 CREATE POLICY "Admins can view all creator profiles"
   ON creator_profiles FOR SELECT
-  USING (auth.user_role() = 'admin');
+  USING (public.get_my_role() = 'admin');
 
 CREATE POLICY "Creators can update own creator profile"
   ON creator_profiles FOR UPDATE
@@ -141,7 +141,7 @@ CREATE POLICY "Clients can manage own products"
 
 CREATE POLICY "Admins can view all products"
   ON products FOR SELECT
-  USING (auth.user_role() = 'admin');
+  USING (public.get_my_role() = 'admin');
 
 
 -- PROJECTS
@@ -159,7 +159,7 @@ CREATE POLICY "Clients can update own projects"
 
 CREATE POLICY "Admins can manage all projects"
   ON projects FOR ALL
-  USING (auth.user_role() = 'admin');
+  USING (public.get_my_role() = 'admin');
 
 CREATE POLICY "Creators can view assigned projects"
   ON projects FOR SELECT
@@ -175,7 +175,7 @@ CREATE POLICY "Creators can view assigned projects"
 -- PROJECT ASSIGNMENTS
 CREATE POLICY "Admins can manage all assignments"
   ON project_assignments FOR ALL
-  USING (auth.user_role() = 'admin');
+  USING (public.get_my_role() = 'admin');
 
 CREATE POLICY "Creators can view own assignments"
   ON project_assignments FOR SELECT
@@ -199,7 +199,7 @@ CREATE POLICY "Clients can view assignments for their projects"
 -- SCRIPTS
 CREATE POLICY "Admins can manage all scripts"
   ON scripts FOR ALL
-  USING (auth.user_role() = 'admin');
+  USING (public.get_my_role() = 'admin');
 
 CREATE POLICY "Clients can view approved scripts for their projects"
   ON scripts FOR SELECT
@@ -236,7 +236,7 @@ CREATE POLICY "Creators can insert scripts for their assignments"
 -- VIDEOS
 CREATE POLICY "Admins can manage all videos"
   ON videos FOR ALL
-  USING (auth.user_role() = 'admin');
+  USING (public.get_my_role() = 'admin');
 
 CREATE POLICY "Clients can view approved videos for their projects"
   ON videos FOR SELECT
@@ -277,7 +277,7 @@ CREATE POLICY "Users can view messages they sent or received"
 
 CREATE POLICY "Admins can view all messages"
   ON messages FOR SELECT
-  USING (auth.user_role() = 'admin');
+  USING (public.get_my_role() = 'admin');
 
 CREATE POLICY "Users can insert messages"
   ON messages FOR INSERT

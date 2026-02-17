@@ -56,6 +56,7 @@ export async function updateSession(request: NextRequest) {
     }
 
     // If user is logged in and on auth pages, redirect to their dashboard
+    // BUT only if we can actually find their profile (prevents redirect loop)
     if (user && (path === '/login' || path === '/register')) {
       const { data: profile } = await supabase
         .from('profiles')
@@ -63,13 +64,18 @@ export async function updateSession(request: NextRequest) {
         .eq('id', user.id)
         .single();
 
-      const role = profile?.role || 'client';
-      const url = request.nextUrl.clone();
-      url.pathname = `/${role}`;
-      return NextResponse.redirect(url);
+      // Only redirect if profile exists — otherwise let them stay on auth page
+      if (profile?.role) {
+        const url = request.nextUrl.clone();
+        url.pathname = `/${profile.role}`;
+        return NextResponse.redirect(url);
+      }
+
+      // No profile found — don't redirect, let the page handle it
+      return supabaseResponse;
     }
 
-    // Role-based route protection
+    // Role-based route protection — only if profile exists
     if (user && (path.startsWith('/admin') || path.startsWith('/client') || path.startsWith('/creator'))) {
       const { data: profile } = await supabase
         .from('profiles')
@@ -77,12 +83,16 @@ export async function updateSession(request: NextRequest) {
         .eq('id', user.id)
         .single();
 
-      const role = profile?.role;
+      // If no profile, let the dashboard layout handle it (it creates the profile)
+      if (!profile?.role) {
+        return supabaseResponse;
+      }
+
       const requestedRole = path.split('/')[1];
 
-      if (role && role !== requestedRole) {
+      if (profile.role !== requestedRole) {
         const url = request.nextUrl.clone();
-        url.pathname = `/${role}`;
+        url.pathname = `/${profile.role}`;
         return NextResponse.redirect(url);
       }
     }
