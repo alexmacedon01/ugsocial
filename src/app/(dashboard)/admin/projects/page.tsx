@@ -47,11 +47,11 @@ export default async function AdminProjectsPage() {
             const sc = statusConfig[project.status] || { label: project.status, variant: 'default' as const };
             return (
               <Link key={project.id} href={`/admin/projects/${project.id}`}>
-                <Card className="transition-shadow hover:shadow-md">
+                <Card className="transition-all hover:shadow-lg hover:scale-[1.01]">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="font-medium text-zinc-900 dark:text-white">{project.title}</h3>
-                      <div className="mt-1 flex items-center gap-3 text-sm text-zinc-500">
+                      <h3 className="font-medium text-text-primary">{project.title}</h3>
+                      <div className="mt-1 flex items-center gap-3 text-sm text-text-secondary">
                         <span>{project.client?.company_name || project.client?.full_name || 'Unbekannt'}</span>
                         <span>&middot;</span>
                         <span>{project.num_videos} Video{project.num_videos !== 1 ? 's' : ''}</span>
@@ -70,7 +70,7 @@ export default async function AdminProjectsPage() {
         </div>
       ) : (
         <Card>
-          <p className="py-12 text-center text-sm text-zinc-500">
+          <p className="py-12 text-center text-sm text-text-secondary">
             Noch keine Projekte eingegangen.
           </p>
         </Card>

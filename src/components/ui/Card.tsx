@@ -5,7 +5,7 @@ interface CardProps {
 
 export function Card({ children, className = '' }: CardProps) {
   return (
-    <div className={`rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950 ${className}`}>
+    <div className={`glass-panel rounded-2xl p-6 ${className}`}>
       {children}
     </div>
   );
@@ -21,7 +21,7 @@ export function CardHeader({ children, className = '' }: CardProps) {
 
 export function CardTitle({ children, className = '' }: CardProps) {
   return (
-    <h3 className={`text-lg font-semibold text-zinc-900 dark:text-zinc-100 ${className}`}>
+    <h3 className={`text-lg font-semibold text-text-primary ${className}`}>
       {children}
     </h3>
   );
@@ -29,7 +29,7 @@ export function CardTitle({ children, className = '' }: CardProps) {
 
 export function CardDescription({ children, className = '' }: CardProps) {
   return (
-    <p className={`text-sm text-zinc-500 dark:text-zinc-400 ${className}`}>
+    <p className={`text-sm text-text-secondary ${className}`}>
       {children}
     </p>
   );

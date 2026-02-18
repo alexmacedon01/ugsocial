@@ -55,16 +55,16 @@ export default async function AdminReviewPage() {
             )}
           </div>
           {pendingProjects && pendingProjects.filter(p => p.status === 'brief_submitted').length > 0 ? (
-            <div className="mt-4 divide-y divide-zinc-100 dark:divide-zinc-800">
+            <div className="mt-4 divide-y divide-white/10">
               {pendingProjects.filter(p => p.status === 'brief_submitted').map((project) => (
                 <Link
                   key={project.id}
                   href={`/admin/projects/${project.id}`}
-                  className="-mx-6 flex items-center justify-between px-6 py-3 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-900"
+                  className="-mx-6 flex items-center justify-between px-6 py-3 transition-colors hover:bg-white/10"
                 >
                   <div>
-                    <p className="font-medium text-zinc-900 dark:text-white">{project.title}</p>
-                    <p className="text-sm text-zinc-500">
+                    <p className="font-medium text-text-primary">{project.title}</p>
+                    <p className="text-sm text-text-secondary">
                       {project.client?.company_name || project.client?.full_name} &middot; {new Date(project.created_at).toLocaleDateString('de-DE')}
                     </p>
                   </div>
@@ -73,32 +73,32 @@ export default async function AdminReviewPage() {
               ))}
             </div>
           ) : (
-            <p className="mt-4 text-sm text-zinc-500">Keine neuen Briefs.</p>
+            <p className="mt-4 text-sm text-text-secondary">Keine neuen Briefs.</p>
           )}
         </Card>
 
         {/* Pending Scripts */}
         <Card>
           <div className="flex items-center gap-2">
-            <FileText size={20} className="text-zinc-500" />
+            <FileText size={20} className="text-text-secondary" />
             <CardTitle>Scripts zur Freigabe</CardTitle>
             {pendingScripts && pendingScripts.length > 0 && (
               <Badge variant="warning">{pendingScripts.length}</Badge>
             )}
           </div>
           {pendingScripts && pendingScripts.length > 0 ? (
-            <div className="mt-4 divide-y divide-zinc-100 dark:divide-zinc-800">
+            <div className="mt-4 divide-y divide-white/10">
               {pendingScripts.map((script) => (
                 <Link
                   key={script.id}
                   href={`/admin/projects/${script.project_id}`}
-                  className="-mx-6 flex items-center justify-between px-6 py-3 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-900"
+                  className="-mx-6 flex items-center justify-between px-6 py-3 transition-colors hover:bg-white/10"
                 >
                   <div>
-                    <p className="font-medium text-zinc-900 dark:text-white">
+                    <p className="font-medium text-text-primary">
                       {script.project?.title}
                     </p>
-                    <p className="text-sm text-zinc-500">
+                    <p className="text-sm text-text-secondary">
                       {script.type === 'ai_generated' ? 'AI-Script' : 'Creator-Script'} v{script.version}
                     </p>
                   </div>
@@ -107,39 +107,39 @@ export default async function AdminReviewPage() {
               ))}
             </div>
           ) : (
-            <p className="mt-4 text-sm text-zinc-500">Keine Scripts zur Freigabe.</p>
+            <p className="mt-4 text-sm text-text-secondary">Keine Scripts zur Freigabe.</p>
           )}
         </Card>
 
         {/* Pending Videos */}
         <Card>
           <div className="flex items-center gap-2">
-            <Video size={20} className="text-zinc-500" />
+            <Video size={20} className="text-text-secondary" />
             <CardTitle>Videos zur Freigabe</CardTitle>
             {pendingVideos && pendingVideos.length > 0 && (
               <Badge variant="warning">{pendingVideos.length}</Badge>
             )}
           </div>
           {pendingVideos && pendingVideos.length > 0 ? (
-            <div className="mt-4 divide-y divide-zinc-100 dark:divide-zinc-800">
+            <div className="mt-4 divide-y divide-white/10">
               {pendingVideos.map((video) => (
                 <Link
                   key={video.id}
                   href={`/admin/projects/${video.project_id}`}
-                  className="-mx-6 flex items-center justify-between px-6 py-3 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-900"
+                  className="-mx-6 flex items-center justify-between px-6 py-3 transition-colors hover:bg-white/10"
                 >
                   <div>
-                    <p className="font-medium text-zinc-900 dark:text-white">
+                    <p className="font-medium text-text-primary">
                       {video.project?.title}
                     </p>
-                    <p className="text-sm text-zinc-500">Video v{video.version}</p>
+                    <p className="text-sm text-text-secondary">Video v{video.version}</p>
                   </div>
                   <Badge variant="warning">Review nötig</Badge>
                 </Link>
               ))}
             </div>
           ) : (
-            <p className="mt-4 text-sm text-zinc-500">Keine Videos zur Freigabe.</p>
+            <p className="mt-4 text-sm text-text-secondary">Keine Videos zur Freigabe.</p>
           )}
         </Card>
       </div>

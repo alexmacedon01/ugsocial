@@ -61,14 +61,14 @@ export default async function AdminDashboard() {
       <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
           <Link key={stat.label} href={stat.href}>
-            <Card className="transition-shadow hover:shadow-md">
+            <Card className="transition-all hover:shadow-lg hover:scale-[1.01]">
               <div className="flex items-center gap-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent-soft text-accent">
                   {stat.icon}
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-zinc-900 dark:text-white">{stat.value}</p>
-                  <p className="text-sm text-zinc-500">{stat.label}</p>
+                  <p className="text-2xl font-bold text-text-primary">{stat.value}</p>
+                  <p className="text-sm text-text-secondary">{stat.label}</p>
                 </div>
               </div>
             </Card>
@@ -82,16 +82,16 @@ export default async function AdminDashboard() {
         <CardDescription>Zuletzt eingegangene Projektbriefs</CardDescription>
         <div className="mt-4">
           {recentProjects && recentProjects.length > 0 ? (
-            <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
+            <div className="divide-y divide-white/10">
               {recentProjects.map((project) => (
                 <Link
                   key={project.id}
                   href={`/admin/projects/${project.id}`}
-                  className="flex items-center justify-between py-3 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-900 -mx-6 px-6"
+                  className="flex items-center justify-between py-3 transition-colors hover:bg-white/10 -mx-6 px-6"
                 >
                   <div>
-                    <p className="font-medium text-zinc-900 dark:text-white">{project.title}</p>
-                    <p className="text-sm text-zinc-500">
+                    <p className="font-medium text-text-primary">{project.title}</p>
+                    <p className="text-sm text-text-secondary">
                       {new Date(project.created_at).toLocaleDateString('de-DE')}
                     </p>
                   </div>
@@ -100,7 +100,7 @@ export default async function AdminDashboard() {
               ))}
             </div>
           ) : (
-            <p className="py-8 text-center text-sm text-zinc-500">
+            <p className="py-8 text-center text-sm text-text-secondary">
               Noch keine Projekte vorhanden.
             </p>
           )}

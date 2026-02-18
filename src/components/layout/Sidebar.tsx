@@ -76,14 +76,14 @@ export function Sidebar({ role, userName }: SidebarProps) {
   };
 
   return (
-    <aside className="flex h-screen w-64 flex-col border-r border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+    <aside className="glass-panel-heavy flex h-screen w-64 flex-col rounded-none border-r-0">
       {/* Logo */}
-      <div className="flex h-16 items-center border-b border-zinc-200 px-6 dark:border-zinc-800">
+      <div className="flex h-16 items-center border-b border-white/10 px-6">
         <Link href={`/${role}`} className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-900 text-sm font-bold text-white dark:bg-white dark:text-zinc-900">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 text-sm font-bold text-white shadow-sm">
             UF
           </div>
-          <span className="text-lg font-semibold text-zinc-900 dark:text-white">UGC Flow</span>
+          <span className="text-lg font-semibold text-text-primary">UGC Flow</span>
         </Link>
       </div>
 
@@ -96,10 +96,10 @@ export function Sidebar({ role, userName }: SidebarProps) {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                  className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-all ${
                     isActive
-                      ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-white'
-                      : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-white'
+                      ? 'bg-white/20 text-text-primary shadow-sm backdrop-blur-sm'
+                      : 'text-text-secondary hover:bg-white/10 hover:text-text-primary'
                   }`}
                 >
                   {item.icon}
@@ -112,15 +112,15 @@ export function Sidebar({ role, userName }: SidebarProps) {
       </nav>
 
       {/* User footer */}
-      <div className="border-t border-zinc-200 p-3 dark:border-zinc-800">
-        <div className="flex items-center justify-between rounded-lg px-3 py-2">
+      <div className="border-t border-white/10 p-3">
+        <div className="flex items-center justify-between rounded-xl px-3 py-2">
           <div className="min-w-0">
-            <p className="truncate text-sm font-medium text-zinc-900 dark:text-white">{userName}</p>
-            <p className="text-xs capitalize text-zinc-500">{role}</p>
+            <p className="truncate text-sm font-medium text-text-primary">{userName}</p>
+            <p className="text-xs capitalize text-text-tertiary">{role}</p>
           </div>
           <button
             onClick={handleSignOut}
-            className="rounded-lg p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
+            className="rounded-lg p-1.5 text-text-tertiary transition-colors hover:bg-white/15 hover:text-text-primary"
             title="Abmelden"
           >
             <LogOut size={18} />

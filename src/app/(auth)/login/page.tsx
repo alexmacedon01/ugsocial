@@ -46,50 +46,55 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 px-4 dark:bg-zinc-950">
+    <div className="bg-mesh-gradient flex min-h-screen items-center justify-center px-4">
       <div className="w-full max-w-sm">
-        <div className="mb-8 text-center">
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">UGC Flow</h1>
-          <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-            Melde dich bei deinem Konto an
+        <div className="glass-panel rounded-2xl p-8">
+          <div className="mb-8 text-center">
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-lg font-bold text-white shadow-lg">
+              UF
+            </div>
+            <h1 className="text-2xl font-bold text-text-primary">Willkommen zurück</h1>
+            <p className="mt-2 text-sm text-text-secondary">
+              Melde dich bei deinem Konto an
+            </p>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-4">
+            <Input
+              id="email"
+              label="E-Mail"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="alex@ugcflow.com"
+              required
+            />
+            <Input
+              id="password"
+              label="Passwort"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+            />
+
+            {error && (
+              <p className="text-sm text-red-500">{error}</p>
+            )}
+
+            <Button type="submit" loading={loading} className="w-full">
+              Anmelden
+            </Button>
+          </form>
+
+          <p className="mt-6 text-center text-sm text-text-secondary">
+            Noch kein Konto?{' '}
+            <Link href="/register" className="font-medium text-accent hover:underline">
+              Registrieren
+            </Link>
           </p>
         </div>
-
-        <form onSubmit={handleLogin} className="space-y-4">
-          <Input
-            id="email"
-            label="E-Mail"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="alex@ugcflow.com"
-            required
-          />
-          <Input
-            id="password"
-            label="Passwort"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="••••••••"
-            required
-          />
-
-          {error && (
-            <p className="text-sm text-red-600">{error}</p>
-          )}
-
-          <Button type="submit" loading={loading} className="w-full">
-            Anmelden
-          </Button>
-        </form>
-
-        <p className="mt-6 text-center text-sm text-zinc-500 dark:text-zinc-400">
-          Noch kein Konto?{' '}
-          <Link href="/register" className="font-medium text-zinc-900 hover:underline dark:text-white">
-            Registrieren
-          </Link>
-        </p>
       </div>
     </div>
   );

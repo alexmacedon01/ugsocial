@@ -35,11 +35,11 @@ export default async function ClientProjectsPage() {
         <div className="space-y-3">
           {projects.map((project) => (
             <Link key={project.id} href={`/client/projects/${project.id}`}>
-              <Card className="transition-shadow hover:shadow-md">
+              <Card className="transition-all hover:shadow-lg hover:scale-[1.01]">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="font-medium text-zinc-900 dark:text-white">{project.title}</h3>
-                    <div className="mt-1 flex items-center gap-3 text-sm text-zinc-500">
+                    <h3 className="font-medium text-text-primary">{project.title}</h3>
+                    <div className="mt-1 flex items-center gap-3 text-sm text-text-secondary">
                       <span>{project.num_videos} Video{project.num_videos !== 1 ? 's' : ''}</span>
                       <span>&middot;</span>
                       <span>{project.platforms?.join(', ')}</span>
@@ -56,7 +56,7 @@ export default async function ClientProjectsPage() {
       ) : (
         <Card>
           <div className="py-12 text-center">
-            <p className="text-zinc-500">Noch keine Projekte erstellt.</p>
+            <p className="text-text-secondary">Noch keine Projekte erstellt.</p>
             <Link href="/client/brief/new">
               <Button variant="secondary" className="mt-4">
                 Erstes Projekt erstellen

@@ -39,13 +39,13 @@ export default async function CreatorAssignmentsPage() {
             const sl = statusLabels[assignment.status] || { label: assignment.status, variant: 'default' as const };
             return (
               <Link key={assignment.id} href={`/creator/assignments/${assignment.id}`}>
-                <Card className="transition-shadow hover:shadow-md">
+                <Card className="transition-all hover:shadow-lg hover:scale-[1.01]">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="font-medium text-zinc-900 dark:text-white">
+                      <h3 className="font-medium text-text-primary">
                         {assignment.project?.title || 'Projekt'}
                       </h3>
-                      <div className="mt-1 flex items-center gap-3 text-sm text-zinc-500">
+                      <div className="mt-1 flex items-center gap-3 text-sm text-text-secondary">
                         <span>{assignment.project?.num_videos} Video{assignment.project?.num_videos !== 1 ? 's' : ''}</span>
                         <span>&middot;</span>
                         <span>{assignment.project?.platforms?.join(', ')}</span>
@@ -69,7 +69,7 @@ export default async function CreatorAssignmentsPage() {
         </div>
       ) : (
         <Card>
-          <p className="py-12 text-center text-sm text-zinc-500">
+          <p className="py-12 text-center text-sm text-text-secondary">
             Noch keine Aufträge. Neue Aufträge erscheinen hier, sobald sie dir zugewiesen werden.
           </p>
         </Card>

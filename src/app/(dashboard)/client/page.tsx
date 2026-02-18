@@ -59,12 +59,12 @@ export default async function ClientDashboard() {
         {stats.map((stat) => (
           <Card key={stat.label}>
             <div className="flex items-center gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent-soft text-accent">
                 {stat.icon}
               </div>
               <div>
-                <p className="text-2xl font-bold text-zinc-900 dark:text-white">{stat.value}</p>
-                <p className="text-sm text-zinc-500">{stat.label}</p>
+                <p className="text-2xl font-bold text-text-primary">{stat.value}</p>
+                <p className="text-sm text-text-secondary">{stat.label}</p>
               </div>
             </div>
           </Card>
@@ -75,21 +75,21 @@ export default async function ClientDashboard() {
       <Card>
         <div className="mb-4 flex items-center justify-between">
           <CardTitle>Aktive Projekte</CardTitle>
-          <Link href="/client/projects" className="text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:hover:text-white">
+          <Link href="/client/projects" className="text-sm font-medium text-text-secondary hover:text-text-primary">
             Alle anzeigen
           </Link>
         </div>
         {activeProjects.length > 0 ? (
-          <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
+          <div className="divide-y divide-white/10">
             {activeProjects.slice(0, 5).map((project) => (
               <Link
                 key={project.id}
                 href={`/client/projects/${project.id}`}
-                className="-mx-6 flex items-center justify-between px-6 py-3 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-900"
+                className="-mx-6 flex items-center justify-between px-6 py-3 transition-colors hover:bg-white/10"
               >
                 <div>
-                  <p className="font-medium text-zinc-900 dark:text-white">{project.title}</p>
-                  <p className="text-sm text-zinc-500">
+                  <p className="font-medium text-text-primary">{project.title}</p>
+                  <p className="text-sm text-text-secondary">
                     {project.num_videos} Video{project.num_videos !== 1 ? 's' : ''} &middot; {new Date(project.created_at).toLocaleDateString('de-DE')}
                   </p>
                 </div>
@@ -99,7 +99,7 @@ export default async function ClientDashboard() {
           </div>
         ) : (
           <div className="py-12 text-center">
-            <p className="text-sm text-zinc-500">Noch keine Projekte.</p>
+            <p className="text-sm text-text-secondary">Noch keine Projekte.</p>
             <Link href="/client/brief/new">
               <Button variant="secondary" className="mt-4">
                 Erstes Projekt erstellen

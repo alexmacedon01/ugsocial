@@ -48,12 +48,12 @@ export default async function CreatorDashboard() {
         {stats.map((stat) => (
           <Card key={stat.label}>
             <div className="flex items-center gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent-soft text-accent">
                 {stat.icon}
               </div>
               <div>
-                <p className="text-2xl font-bold text-zinc-900 dark:text-white">{stat.value}</p>
-                <p className="text-sm text-zinc-500">{stat.label}</p>
+                <p className="text-2xl font-bold text-text-primary">{stat.value}</p>
+                <p className="text-sm text-text-secondary">{stat.label}</p>
               </div>
             </div>
           </Card>
@@ -64,23 +64,23 @@ export default async function CreatorDashboard() {
       <Card>
         <div className="mb-4 flex items-center justify-between">
           <CardTitle>Aktive Aufträge</CardTitle>
-          <Link href="/creator/assignments" className="text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:hover:text-white">
+          <Link href="/creator/assignments" className="text-sm font-medium text-text-secondary hover:text-text-primary">
             Alle anzeigen
           </Link>
         </div>
         {activeAssignments.length > 0 ? (
-          <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
+          <div className="divide-y divide-white/10">
             {activeAssignments.map((assignment) => (
               <Link
                 key={assignment.id}
                 href={`/creator/assignments/${assignment.id}`}
-                className="-mx-6 flex items-center justify-between px-6 py-3 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-900"
+                className="-mx-6 flex items-center justify-between px-6 py-3 transition-colors hover:bg-white/10"
               >
                 <div>
-                  <p className="font-medium text-zinc-900 dark:text-white">
+                  <p className="font-medium text-text-primary">
                     {assignment.project?.title || 'Projekt'}
                   </p>
-                  <div className="mt-1 flex items-center gap-2 text-sm text-zinc-500">
+                  <div className="mt-1 flex items-center gap-2 text-sm text-text-secondary">
                     <Clock size={14} />
                     {assignment.project?.deadline
                       ? `Deadline: ${new Date(assignment.project.deadline).toLocaleDateString('de-DE')}`
@@ -92,7 +92,7 @@ export default async function CreatorDashboard() {
             ))}
           </div>
         ) : (
-          <p className="py-12 text-center text-sm text-zinc-500">
+          <p className="py-12 text-center text-sm text-text-secondary">
             Keine aktiven Aufträge. Neue Aufträge erscheinen hier automatisch.
           </p>
         )}

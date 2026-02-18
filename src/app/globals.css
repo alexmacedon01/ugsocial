@@ -1,26 +1,192 @@
 @import "tailwindcss";
 
+/* ============================================
+   UGC FLOW — Premium Glassmorphism Design System
+   ============================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* -- Mesh Gradient Stops (Light) -- */
+  --gradient-1: #fef3e2;
+  --gradient-2: #fce7d6;
+  --gradient-3: #fbd5e5;
+  --gradient-4: #e8d5f5;
+  --gradient-5: #dbeafe;
+
+  /* -- Glass Tokens -- */
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-bg-heavy: rgba(255, 255, 255, 0.70);
+  --glass-bg-light: rgba(255, 255, 255, 0.35);
+  --glass-border: rgba(255, 255, 255, 0.60);
+  --glass-border-subtle: rgba(255, 255, 255, 0.30);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  --glass-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.08);
+  --glass-blur: 16px;
+  --glass-blur-heavy: 24px;
+
+  /* -- Surfaces -- */
+  --background: #faf8f6;
+  --foreground: #1a1a2e;
+  --surface-input: rgba(255, 255, 255, 0.50);
+
+  /* -- Accent (Warm Amber/Orange) -- */
+  --accent-primary: #f59e0b;
+  --accent-primary-hover: #d97706;
+  --accent-gradient: linear-gradient(135deg, #f59e0b, #f97316);
+  --accent-soft: rgba(245, 158, 11, 0.12);
+
+  /* -- Text Hierarchy -- */
+  --text-primary: #1a1a2e;
+  --text-secondary: #64748b;
+  --text-tertiary: #94a3b8;
+
+  /* -- Focus Ring -- */
+  --ring-color: rgba(245, 158, 11, 0.40);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --gradient-1: #1a0a2e;
+    --gradient-2: #1e1145;
+    --gradient-3: #2d1b4e;
+    --gradient-4: #1a1a3e;
+    --gradient-5: #0f172a;
+
+    --glass-bg: rgba(255, 255, 255, 0.06);
+    --glass-bg-heavy: rgba(255, 255, 255, 0.10);
+    --glass-bg-light: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-border-subtle: rgba(255, 255, 255, 0.06);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.30);
+    --glass-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.40);
+
+    --background: #0a0a1a;
+    --foreground: #e2e8f0;
+    --surface-input: rgba(255, 255, 255, 0.06);
+
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-tertiary: #64748b;
+
+    --ring-color: rgba(245, 158, 11, 0.50);
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-accent: var(--accent-primary);
+  --color-accent-hover: var(--accent-primary-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-glass-bg: var(--glass-bg);
+  --color-glass-border: var(--glass-border);
+  --color-glass-border-subtle: var(--glass-border-subtle);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+}
+
+/* ============================================
+   Mesh Gradient Background
+   ============================================ */
+
+.bg-mesh-gradient {
+  background:
+    radial-gradient(ellipse at 0% 0%, var(--gradient-1) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 0%, var(--gradient-2) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 100%, var(--gradient-3) 0%, transparent 50%),
+    radial-gradient(ellipse at 0% 100%, var(--gradient-4) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, var(--gradient-5) 0%, transparent 60%);
+  background-color: var(--background);
+  background-attachment: fixed;
+}
+
+/* ============================================
+   Glass Panel Utilities
+   ============================================ */
+
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-panel-heavy {
+  background: var(--glass-bg-heavy);
+  backdrop-filter: blur(var(--glass-blur-heavy));
+  -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow-lg);
+}
+
+.glass-panel-light {
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border-subtle);
+}
+
+/* ============================================
+   Glass Input
+   ============================================ */
+
+.glass-input {
+  background: var(--surface-input);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border-subtle);
+  color: var(--text-primary);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.glass-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.glass-input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px var(--ring-color);
+  outline: none;
+}
+
+/* ============================================
+   Button Variants
+   ============================================ */
+
+.btn-accent {
+  background: var(--accent-gradient);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.30);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.btn-accent:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.40);
+}
+
+.btn-accent:active {
+  transform: translateY(0);
+}
+
+.btn-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  transition: background 0.2s;
+}
+
+.btn-glass:hover {
+  background: var(--glass-bg-heavy);
 }

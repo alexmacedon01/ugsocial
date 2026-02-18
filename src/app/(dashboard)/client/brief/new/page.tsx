@@ -138,19 +138,19 @@ export default function NewBriefPage() {
             <div key={s.id} className="flex items-center">
               <div className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ${
                 i <= step
-                  ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-900'
-                  : 'bg-zinc-200 text-zinc-500 dark:bg-zinc-800'
+                  ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white'
+                  : 'bg-white/20 text-text-tertiary'
               }`}>
                 {i + 1}
               </div>
               <span className={`ml-2 hidden text-sm font-medium sm:inline ${
-                i <= step ? 'text-zinc-900 dark:text-white' : 'text-zinc-400'
+                i <= step ? 'text-text-primary' : 'text-text-tertiary'
               }`}>
                 {s.title}
               </span>
               {i < STEPS.length - 1 && (
                 <div className={`mx-4 h-px w-8 sm:w-16 ${
-                  i < step ? 'bg-zinc-900 dark:bg-white' : 'bg-zinc-200 dark:bg-zinc-800'
+                  i < step ? 'bg-amber-400' : 'bg-white/20'
                 }`} />
               )}
             </div>
@@ -162,7 +162,7 @@ export default function NewBriefPage() {
         {/* Step 1: Basics */}
         {step === 0 && (
           <div className="space-y-6">
-            <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Projekt-Grundlagen</h2>
+            <h2 className="text-lg font-semibold text-text-primary">Projekt-Grundlagen</h2>
             <Input
               id="title"
               label="Projektname"
@@ -191,8 +191,8 @@ export default function NewBriefPage() {
                     onClick={() => toggleArray('platforms', p)}
                     className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
                       data.platforms.includes(p)
-                        ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-900'
-                        : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700'
+                        ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white'
+                        : 'glass-panel-light text-text-secondary hover:bg-white/20'
                     }`}
                   >
                     {p}
@@ -223,7 +223,7 @@ export default function NewBriefPage() {
         {/* Step 2: Product & Target Audience */}
         {step === 1 && (
           <div className="space-y-6">
-            <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Produkt & Zielgruppe</h2>
+            <h2 className="text-lg font-semibold text-text-primary">Produkt & Zielgruppe</h2>
             <Input
               id="productName"
               label="Produktname"
@@ -261,7 +261,7 @@ export default function NewBriefPage() {
         {/* Step 3: Creative Requirements */}
         {step === 2 && (
           <div className="space-y-6">
-            <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Kreative Anforderungen</h2>
+            <h2 className="text-lg font-semibold text-text-primary">Kreative Anforderungen</h2>
             <div>
               <label className="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
                 Video-Stile
@@ -274,8 +274,8 @@ export default function NewBriefPage() {
                     onClick={() => toggleArray('video_styles', style)}
                     className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
                       data.video_styles.includes(style)
-                        ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-900'
-                        : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700'
+                        ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white'
+                        : 'glass-panel-light text-text-secondary hover:bg-white/20'
                     }`}
                   >
                     {style}
@@ -315,7 +315,7 @@ export default function NewBriefPage() {
         {/* Step 4: References */}
         {step === 3 && (
           <div className="space-y-6">
-            <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Referenzen & Vorgaben</h2>
+            <h2 className="text-lg font-semibold text-text-primary">Referenzen & Vorgaben</h2>
             <Textarea
               id="referenceUrls"
               label="Referenz-Videos (URLs, eine pro Zeile)"
@@ -352,8 +352,8 @@ export default function NewBriefPage() {
         {/* Step 5: Review */}
         {step === 4 && (
           <div className="space-y-6">
-            <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Zusammenfassung</h2>
-            <div className="space-y-4 rounded-lg bg-zinc-50 p-4 dark:bg-zinc-900">
+            <h2 className="text-lg font-semibold text-text-primary">Zusammenfassung</h2>
+            <div className="glass-panel-light rounded-xl p-4 space-y-4">
               <ReviewRow label="Projektname" value={data.title} />
               <ReviewRow label="Kampagnenziel" value={data.campaign_objective} />
               <ReviewRow label="Plattformen" value={data.platforms.join(', ')} />
@@ -362,7 +362,7 @@ export default function NewBriefPage() {
               <ReviewRow label="Produktname" value={data.product_name} />
               <ReviewRow label="Deadline" value={data.deadline || 'Keine angegeben'} />
             </div>
-            <p className="text-sm text-zinc-500">
+            <p className="text-sm text-text-secondary">
               Nach dem Absenden wird unser Team das Briefing prüfen und AI-gestützte Scripts erstellen.
               Du wirst benachrichtigt, sobald die Scripts zur Freigabe bereit sind.
             </p>
@@ -370,7 +370,7 @@ export default function NewBriefPage() {
         )}
 
         {/* Navigation */}
-        <div className="mt-8 flex items-center justify-between border-t border-zinc-200 pt-6 dark:border-zinc-800">
+        <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-6">
           <Button
             variant="ghost"
             onClick={() => setStep((s) => s - 1)}
@@ -399,9 +399,9 @@ export default function NewBriefPage() {
 
 function ReviewRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex justify-between border-b border-zinc-200 pb-2 last:border-0 dark:border-zinc-800">
-      <span className="text-sm font-medium text-zinc-500">{label}</span>
-      <span className="text-sm text-zinc-900 dark:text-white">{value || '—'}</span>
+    <div className="flex justify-between border-b border-white/10 pb-2 last:border-0">
+      <span className="text-sm font-medium text-text-secondary">{label}</span>
+      <span className="text-sm text-text-primary">{value || '—'}</span>
     </div>
   );
 }

@@ -47,13 +47,13 @@ export default async function DashboardLayout({
     // If still no profile, show debug info so we can see what's wrong
     if (!profile) {
       return (
-        <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950">
-          <div className="max-w-md text-center">
-            <h1 className="text-xl font-bold text-zinc-900 dark:text-white">Profil konnte nicht erstellt werden</h1>
-            <p className="mt-2 text-sm text-zinc-500">
+        <div className="bg-mesh-gradient flex min-h-screen items-center justify-center px-4">
+          <div className="glass-panel rounded-2xl p-8 max-w-md text-center">
+            <h1 className="text-xl font-bold text-text-primary">Profil konnte nicht erstellt werden</h1>
+            <p className="mt-2 text-sm text-text-secondary">
               Benutzer-ID: {user.id.substring(0, 8)}...
             </p>
-            <p className="mt-1 text-sm text-zinc-500">
+            <p className="mt-1 text-sm text-text-secondary">
               E-Mail: {user.email}
             </p>
             {profileError && (
@@ -61,12 +61,12 @@ export default async function DashboardLayout({
                 DB Fehler: {profileError.message} (Code: {profileError.code})
               </p>
             )}
-            <p className="mt-4 text-sm text-zinc-500">
+            <p className="mt-4 text-sm text-text-secondary">
               Bitte stelle sicher, dass die Datenbank-Migration ausgefuehrt wurde.
             </p>
             <a
               href="/login"
-              className="mt-4 inline-block rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
+              className="btn-accent mt-4 inline-block rounded-xl px-4 py-2 text-sm font-medium"
             >
               Zurueck zur Anmeldung
             </a>
@@ -88,15 +88,15 @@ export default async function DashboardLayout({
 
     console.error('Dashboard layout error:', error);
     return (
-      <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950">
-        <div className="max-w-md text-center">
-          <h1 className="text-xl font-bold text-zinc-900 dark:text-white">Etwas ist schiefgelaufen</h1>
-          <p className="mt-2 text-sm text-zinc-500">
+      <div className="bg-mesh-gradient flex min-h-screen items-center justify-center px-4">
+        <div className="glass-panel rounded-2xl p-8 max-w-md text-center">
+          <h1 className="text-xl font-bold text-text-primary">Etwas ist schiefgelaufen</h1>
+          <p className="mt-2 text-sm text-text-secondary">
             {error instanceof Error ? error.message : 'Unbekannter Fehler'}
           </p>
           <a
             href="/login"
-            className="mt-4 inline-block rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
+            className="btn-accent mt-4 inline-block rounded-xl px-4 py-2 text-sm font-medium"
           >
             Zurueck zur Anmeldung
           </a>
